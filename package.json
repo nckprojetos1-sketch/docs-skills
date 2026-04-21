@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "Installer for DOCS Codex skills.",
   "bin": {
-    "docs-skills": "bin/install-docs-skills.js"
+    "docs-skills": "bin/install-docs-skills.js",
+    "docs-skills-update": "bin/install-docs-skills.js"
   },
   "files": [
     "bin/",

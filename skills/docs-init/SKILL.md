@@ -21,6 +21,22 @@ Treat `/docs-init` as a textual alias for this skill, not as a shell command.
 - If the current directory is ambiguous, ask for the target repo path in one concise question.
 - If a repository already has DOCS, explain that this skill validates structure and does not update the method automatically.
 - If another DOCS skill routed here because DOCS is missing, return a short next step telling the user to rerun the original skill after initialization.
+- After a successful first-use initialization or validation, treat this skill as disposable. Explain that `docs-init` is intended for one-time setup, then ask the user for permission to remove the installed `docs-init` skill from both Codex skill locations. If the user agrees, delete only these directories:
+  - `~/.codex/skills/docs-init`
+  - `~/.agents/skills/docs-init`
+- Use the platform shell safely when removing `docs-init`. On Windows, prefer:
+
+```powershell
+Remove-Item -LiteralPath "$HOME\.codex\skills\docs-init","$HOME\.agents\skills\docs-init" -Recurse -Force -ErrorAction SilentlyContinue
+```
+
+On macOS/Linux, prefer:
+
+```bash
+rm -rf "$HOME/.codex/skills/docs-init" "$HOME/.agents/skills/docs-init"
+```
+
+- Do not remove any other DOCS skill during self-removal. Tell the user to restart Codex after removal so the skill list is refreshed.
 
 ## DOCS Contract
 

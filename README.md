@@ -15,6 +15,12 @@ De qualquer ambiente com Node/npm instalado, instale direto do GitHub com:
 npx --yes github:nckprojetos1-sketch/docs-skills
 ```
 
+Para atualizar as skills instaladas com a versao mais recente deste repositorio:
+
+```powershell
+npx --yes github:nckprojetos1-sketch/docs-skills update
+```
+
 Para limpar skills DOCS antigas que nao fazem parte deste pacote e instalar as
 novas:
 
@@ -34,7 +40,7 @@ Depois da instalacao, reinicie o Codex para carregar as skills novas.
 ## Skills Incluidas
 
 - `$docs-init`
-  - Inicializa a estrutura DOCS em um repositorio.
+  - Inicializa a estrutura DOCS em um repositorio. E uma skill de uso unico e orienta o agente a remove-la depois da primeira execucao bem-sucedida.
 - `$docs-executor`
   - Orienta execucao de planos e subplanos ja definidos.
 - `$docs-plan-ap`
@@ -65,6 +71,9 @@ Para ver as opcoes do instalador:
 ```powershell
 npx --yes github:nckprojetos1-sketch/docs-skills --help
 ```
+
+O comando `update` e um alias explicito de instalacao: ele baixa o pacote atual
+do GitHub e substitui as skills instaladas por esta versao, preservando backup.
 
 ## Estrutura do Repositorio
 

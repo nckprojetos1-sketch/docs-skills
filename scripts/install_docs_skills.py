@@ -135,6 +135,7 @@ def clean_docs_skills(target_root: Path, disabled_root: Path) -> list[str]:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Install DOCS method skills.")
+    parser.add_argument("command", nargs="?", choices=["install", "update"], default="install", help="Install or update skills. Both copy the current repository version.")
     parser.add_argument("--codex-skills", default=str(Path.home() / ".codex" / "skills"), help="Target .codex skills directory.")
     parser.add_argument("--agents-skills", default=str(Path.home() / ".agents" / "skills"), help="Target .agents skills directory.")
     parser.add_argument("--keep-legacy", action="store_true", help="Do not disable xml-docs-init-* legacy skills.")

@@ -26,6 +26,7 @@ function usage() {
 
 Usage:
   npx --yes github:nckprojetos1-sketch/docs-skills
+  npx --yes github:nckprojetos1-sketch/docs-skills update
 
 Options:
   --codex-skills <path>   Target Codex skills directory. Defaults to ~/.codex/skills.
@@ -46,6 +47,9 @@ function parseArgs(argv) {
 
   for (let i = 0; i < argv.length; i += 1) {
     const current = argv[i];
+    if (current === "install" || current === "update") {
+      continue;
+    }
     if (current === "-h" || current === "--help") {
       usage();
       process.exit(0);
