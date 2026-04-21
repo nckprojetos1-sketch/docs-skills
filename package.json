@@ -1,0 +1,16 @@
+{
+  "name": "docs-skills",
+  "version": "0.1.0",
+  "description": "Installer for DOCS Codex skills.",
+  "bin": {
+    "docs-skills": "bin/install-docs-skills.js"
+  },
+  "files": [
+    "bin/",
+    "skills/",
+    "scripts/",
+    "help/",
+    "README.md"
+  ],
+  "license": "UNLICENSED"
+}

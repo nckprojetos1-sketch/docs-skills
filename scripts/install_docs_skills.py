@@ -112,11 +112,33 @@ def disable_legacy(codex_skills: Path, disabled_root: Path) -> list[str]:
     return moved
 
 
+def clean_docs_skills(target_root: Path, disabled_root: Path) -> list[str]:
+    moved: list[str] = []
+    if not target_root.exists():
+        return moved
+
+    disabled_root.mkdir(parents=True, exist_ok=True)
+    for source in target_root.iterdir():
+        if not source.is_dir():
+            continue
+        is_docs_skill = source.name.startswith("docs-") or source.name.startswith("xml-docs-")
+        is_current_skill = source.name in SKILLS
+        if not is_docs_skill or is_current_skill:
+            continue
+        destination = disabled_root / source.name
+        if destination.exists():
+            raise InstallError(f"Disabled DOCS path already exists: {destination}")
+        shutil.move(str(source), str(destination))
+        moved.append(str(destination))
+    return moved
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Install DOCS method skills.")
     parser.add_argument("--codex-skills", default=str(Path.home() / ".codex" / "skills"), help="Target .codex skills directory.")
     parser.add_argument("--agents-skills", default=str(Path.home() / ".agents" / "skills"), help="Target .agents skills directory.")
     parser.add_argument("--keep-legacy", action="store_true", help="Do not disable xml-docs-init-* legacy skills.")
+    parser.add_argument("--clean-docs", action="store_true", help="Move any installed docs-* or xml-docs-* skill not in this package.")
     return parser.parse_args()
 
 
@@ -135,6 +157,11 @@ def main() -> int:
             raise InstallError("Source validation failed: " + "; ".join(source_errors))
 
         installed: dict[str, str] = {}
+        disabled: list[str] = []
+        if args.clean_docs:
+            disabled.extend(clean_docs_skills(codex_skills, codex_skills.parent / "skills-disabled" / stamp / ".codex"))
+            disabled.extend(clean_docs_skills(agents_skills, codex_skills.parent / "skills-disabled" / stamp / ".agents"))
+
         codex_installed_dirs: list[Path] = []
         for name in SKILLS:
             destination = codex_skills / name
@@ -148,13 +175,12 @@ def main() -> int:
         if installed_errors:
             raise InstallError("Installed validation failed: " + "; ".join(installed_errors))
 
-        disabled: list[str] = []
         if not args.keep_legacy:
-            disabled = disable_legacy(codex_skills, codex_skills.parent / "skills-disabled" / stamp)
+            disabled.extend(disable_legacy(codex_skills, codex_skills.parent / "skills-disabled" / stamp))
 
         payload = {
             "installed": installed,
-            "legacy_disabled": disabled,
+            "disabled": disabled,
             "backup_root": str(backup_root),
             "codex_skills": str(codex_skills),
             "agents_docs_init": str(agents_docs_init),
