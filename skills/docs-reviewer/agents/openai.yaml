@@ -1,0 +1,7 @@
+interface:
+  display_name: "DOCS Reviewer"
+  short_description: "Revisa contexto e indices DOCS"
+  default_prompt: "Use $docs-reviewer para revisar coerencia, indice e historico do metodo DOCS."
+
+policy:
+  allow_implicit_invocation: false

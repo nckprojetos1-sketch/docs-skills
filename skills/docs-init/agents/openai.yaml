@@ -1,0 +1,7 @@
+interface:
+  display_name: "DOCS Init"
+  short_description: "Bootstrap e valida o metodo DOCS"
+  default_prompt: "Use $docs-init para preparar ou validar DOCS-Engenharia-de-Contexto neste repositorio."
+
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,7 @@
+interface:
+  display_name: "DOCS Executor"
+  short_description: "Executa mudancas pelo DOCS"
+  default_prompt: "Use $docs-executor para conduzir uma execucao pelo metodo DOCS neste repositorio."
+
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,7 @@
+interface:
+  display_name: "DOCS AP Planner"
+  short_description: "Planeja APs pelo metodo DOCS"
+  default_prompt: "Use $docs-plan-ap para abrir e documentar um AP pelo metodo DOCS."
+
+policy:
+  allow_implicit_invocation: false

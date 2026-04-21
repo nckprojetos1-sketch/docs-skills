@@ -1,0 +1,7 @@
+interface:
+  display_name: "DOCS SDDR Planner"
+  short_description: "Planeja SDDRs pelo DOCS"
+  default_prompt: "Use $docs-plan-sddr para abrir e documentar um SDDR pelo metodo DOCS."
+
+policy:
+  allow_implicit_invocation: false
