@@ -19,7 +19,7 @@ executor deve agir dentro dele.
 
 O executor deve operar com estas regras na cabeca:
 
-- codigo vivo e a verdade maxima;
+- codigo vivo é a verdade maxima;
 - plano, subplano ou etapa relevante vem logo depois;
 - `references/` existe para apontar o melhor caminho de leitura, nao para
   substituir o plano;
