@@ -107,10 +107,12 @@ O que ela faz:
 - extrai tabelas com PyMuPDF quando possivel e usa `pypdf` como fallback de
   texto;
 - gera `README.md` em `DOCS-Engenharia-de-Contexto/references/global/<pdf>/`
-  quando DOCS existe, ou em `<pdf-stem>-context/` ao lado do PDF quando nao
+  quando DOCS existe, ou em `<pdf-slug>/` ao lado do PDF quando nao
   existe;
+- gera `context.json` como extracao intermediaria para revisao do agente;
 - aceita `--out <diretorio>` para usar exatamente uma saida manual;
-- cria `tables.json` somente quando houver tabelas reais detectadas;
+- cria `tables.json` somente quando houver tabelas reais detectadas, com
+  `table_id` e `row_id` citados no README;
 - falha com mensagem clara para PDFs escaneados ou sem texto extraivel, sem
   inventar contexto.
 

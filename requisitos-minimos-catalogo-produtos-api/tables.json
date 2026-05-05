@@ -1,0 +1,369 @@
+{
+  "tables": [
+    {
+      "page": 2,
+      "table_index": 2,
+      "title_or_context": "A aplicacao deve ser construida com base nos endpoints e comportamentos descritos no guia de produtos.\nA API utiliza a base https://api.tremed.com.br/v2 e disponibiliza recursos de",
+      "columns": [
+        "Recurso",
+        "Endpoint / parametro",
+        "Uso minimo no sistema"
+      ],
+      "rows": [
+        {
+          "Recurso": "Listar produtos",
+          "Endpoint / parametro": "GET /v2/products",
+          "Uso minimo no sistema": "Fonte principal da tela de catalogo, com paginacao e filtros."
+        },
+        {
+          "Recurso": "Card otimizado",
+          "Endpoint / parametro": "GET /v2/products/card",
+          "Uso minimo no sistema": "Preferencial para listagem rapida, pois retorna campos\nessenciais para cards."
+        },
+        {
+          "Recurso": "Detalhe do produto",
+          "Endpoint / parametro": "GET /v2/products/{id}",
+          "Uso minimo no sistema": "Abrir tela ou drawer com dados completos, ofertas,\nestoque, atributos e IDs externos."
+        },
+        {
+          "Recurso": "Busca",
+          "Endpoint / parametro": "search",
+          "Uso minimo no sistema": "Campo de busca por nome, tolerando erros de digitacao\nquando a API usar fuzzy search."
+        },
+        {
+          "Recurso": "Filtros",
+          "Endpoint / parametro": "category id, brand id,\n_ _\nis active\n_",
+          "Uso minimo no sistema": "Filtrar catalogo por categoria, marca e disponibilidade\ncomercial."
+        },
+        {
+          "Recurso": "Dados comerciais",
+          "Endpoint / parametro": "with stock, with offers\n_ _",
+          "Uso minimo no sistema": "Permitir exibir estoque e ofertas quando o usuario\nprecisar decidir uma venda."
+        },
+        {
+          "Recurso": "Paginacao",
+          "Endpoint / parametro": "per page, page\n_",
+          "Uso minimo no sistema": "Evitar carregar todos os produtos de uma vez; usar pagina\nou carregamento progressivo."
+        }
+      ]
+    },
+    {
+      "page": 3,
+      "table_index": 1,
+      "title_or_context": "Requisitos minimos - Catalogo de Produtos via API\nMVP tecnico",
+      "columns": [
+        "Recurso",
+        "Endpoint / parametro",
+        "Uso minimo no sistema"
+      ],
+      "rows": [
+        {
+          "Recurso": "Ofertas",
+          "Endpoint / parametro": "price, unit price\n_",
+          "Uso minimo no sistema": "Exibir preco original e preco unitario quando relevante; usar\nunit price como base comparativa.\n_"
+        }
+      ]
+    },
+    {
+      "page": 3,
+      "table_index": 3,
+      "title_or_context": "Os requisitos abaixo representam o minimo funcional para que vendedores consigam consultar o catalogo\ncom autonomia e velocidade.",
+      "columns": [
+        "ID",
+        "Requisito",
+        "Criterio minimo de aceite"
+      ],
+      "rows": [
+        {
+          "ID": "RF-01",
+          "Requisito": "Listar produtos em formato de card e/ou\ntabela.",
+          "Criterio minimo de aceite": "A tela mostra nome, SKU, marca, categoria, status, preco atual\ne estoque quando disponivel."
+        },
+        {
+          "ID": "RF-02",
+          "Requisito": "Buscar produtos por texto.",
+          "Criterio minimo de aceite": "Ao digitar uma palavra, o sistema consulta a API com search e\natualiza a lista sem recarregar a pagina inteira."
+        },
+        {
+          "ID": "RF-03",
+          "Requisito": "Filtrar por categoria, marca e status.",
+          "Criterio minimo de aceite": "Filtros podem ser combinados e refletidos na chamada da API."
+        },
+        {
+          "ID": "RF-04",
+          "Requisito": "Exibir apenas produtos ativos por padrao.",
+          "Criterio minimo de aceite": "O catalogo inicia com is active=true, salvo configuracao\n_\ndiferente."
+        },
+        {
+          "ID": "RF-05",
+          "Requisito": "Abrir detalhe completo do produto.",
+          "Criterio minimo de aceite": "Ao clicar em um produto, carrega GET /v2/products/{id} e\nmostra atributos, ofertas, estoque e relacionamentos."
+        },
+        {
+          "ID": "RF-06",
+          "Requisito": "Diferenciar preco original e preco unitario.",
+          "Criterio minimo de aceite": "Quando offers.price e offers.unit price existirem, a interface\n_\ndeixa claro qual e o preco unitario usado para comparacao."
+        },
+        {
+          "ID": "RF-07",
+          "Requisito": "Tratar produto sem imagem ou sem campos\nopcionais.",
+          "Criterio minimo de aceite": "A interface nao quebra se description, brand, category, stock,\noffers ou attributes vierem vazios."
+        },
+        {
+          "ID": "RF-08",
+          "Requisito": "Copiar informacoes comerciais.",
+          "Criterio minimo de aceite": "Vendedor consegue copiar nome, SKU, preco e dados principais\ncom um clique ou acao equivalente."
+        },
+        {
+          "ID": "RF-09",
+          "Requisito": "Salvar estado de navegacao.",
+          "Criterio minimo de aceite": "Busca, filtros, pagina e ordenacao devem ficar na URL ou em\nestado restauravel para compartilhamento interno."
+        },
+        {
+          "ID": "RF-10",
+          "Requisito": "Feedback de carregamento e erro.",
+          "Criterio minimo de aceite": "Tela exibe skeleton/loading, vazio, erro de API e opcao de tentar\nnovamente."
+        }
+      ]
+    },
+    {
+      "page": 4,
+      "table_index": 1,
+      "title_or_context": "Como a rota pode retornar muitos dados, performance precisa ser requisito de arquitetura. A aplicacao\ndeve minimizar volume trafegado, evitar renderizacao excessiva no navegador e ",
+      "columns": [
+        "Area",
+        "Requisito minimo",
+        "Meta recomendada"
+      ],
+      "rows": [
+        {
+          "Area": "Carregamento\ninicial",
+          "Requisito minimo": "Usar endpoint otimizado ou resposta paginada; nunca\ncarregar toda a base de uma vez.",
+          "Meta recomendada": "Primeira lista visivel em ate 2 segundos em\nconexao comum."
+        },
+        {
+          "Area": "Paginacao",
+          "Requisito minimo": "Usar per page controlado. Valor inicial sugerido: 20 a 50\n_\nitens.",
+          "Meta recomendada": "Permitir alterar quantidade ate limite\nseguro definido pela API."
+        },
+        {
+          "Area": "Busca",
+          "Requisito minimo": "Aplicar debounce antes de chamar a API.",
+          "Meta recomendada": "Debounce entre 300ms e 500ms para\nreduzir chamadas desnecessarias."
+        },
+        {
+          "Area": "Renderizacao",
+          "Requisito minimo": "Evitar renderizar milhares de cards simultaneamente.",
+          "Meta recomendada": "Virtualizacao de lista se houver grandes\nvolumes."
+        },
+        {
+          "Area": "Cache",
+          "Requisito minimo": "Cachear resultados recentes e detalhes ja abertos na\nsessao.",
+          "Meta recomendada": "Stale-while-revalidate ou estrategia\nequivalente."
+        },
+        {
+          "Area": "Payload",
+          "Requisito minimo": "Buscar detalhes completos somente ao abrir produto.",
+          "Meta recomendada": "Listagem usa /products/card quando\ndisponivel."
+        },
+        {
+          "Area": "Falhas",
+          "Requisito minimo": "Timeout, retry controlado e mensagem amigavel.",
+          "Meta recomendada": "Retry com backoff para falhas temporarias."
+        },
+        {
+          "Area": "Monitoramento",
+          "Requisito minimo": "Registrar tempo de resposta e erros de API.",
+          "Meta recomendada": "Dashboard simples de latencia e taxa de\nerro."
+        }
+      ]
+    },
+    {
+      "page": 5,
+      "table_index": 1,
+      "title_or_context": "Componentes minimos",
+      "columns": [
+        "Componente",
+        "Obrigatorio?",
+        "Responsabilidade"
+      ],
+      "rows": [
+        {
+          "Componente": "Front-end web",
+          "Obrigatorio?": "Sim",
+          "Responsabilidade": "Renderizar catalogo, filtros, busca, detalhes e estados de UX."
+        },
+        {
+          "Componente": "API externa de produtos",
+          "Obrigatorio?": "Sim",
+          "Responsabilidade": "Fonte de dados do catalogo, conforme guia tecnico."
+        },
+        {
+          "Componente": "Backend proxy",
+          "Obrigatorio?": "Recomendado",
+          "Responsabilidade": "Proteger token, aplicar cache, rate limit, logs e normalizacao de erros."
+        },
+        {
+          "Componente": "Banco local",
+          "Obrigatorio?": "Nao no MVP",
+          "Responsabilidade": "Somente se for preciso favoritos, historico, auditoria ou cache\npersistente."
+        },
+        {
+          "Componente": "Cache",
+          "Obrigatorio?": "Recomendado",
+          "Responsabilidade": "Reduzir chamadas repetidas e melhorar velocidade percebida."
+        },
+        {
+          "Componente": "Observabilidade",
+          "Obrigatorio?": "Sim",
+          "Responsabilidade": "Registrar erros, latencia, endpoints chamados e falhas de integracao."
+        }
+      ]
+    },
+    {
+      "page": 5,
+      "table_index": 2,
+      "title_or_context": "O projeto deve ser facil de subir em qualquer maquina e seguro para evoluir. Isso exige versionamento Git,\npadrao de branches, tags de release e imagens Docker reproduziveis.",
+      "columns": [
+        "Item",
+        "Requisito minimo",
+        "Criterio de aceite"
+      ],
+      "rows": [
+        {
+          "Item": "Git",
+          "Requisito minimo": "Repositorio com historico limpo e README.",
+          "Criterio de aceite": "Qualquer dev consegue entender como rodar,\ntestar e publicar."
+        },
+        {
+          "Item": "Branches",
+          "Requisito minimo": "main para producao e develop/staging opcional.",
+          "Criterio de aceite": "Mudancas entram por pull request ou fluxo\nequivalente."
+        },
+        {
+          "Item": "Tags",
+          "Requisito minimo": "Versionar releases como v1.0.0, v1.0.1.",
+          "Criterio de aceite": "Toda entrega homologada gera tag e changelog\ncurto."
+        },
+        {
+          "Item": "Dockerfile",
+          "Requisito minimo": "Build reproduzivel da aplicacao.",
+          "Criterio de aceite": "docker build conclui sem passos manuais."
+        }
+      ]
+    },
+    {
+      "page": 6,
+      "table_index": 1,
+      "title_or_context": "Requisitos minimos - Catalogo de Produtos via API\nMVP tecnico",
+      "columns": [
+        "Item",
+        "Requisito minimo",
+        "Criterio de aceite"
+      ],
+      "rows": [
+        {
+          "Item": "docker-compose",
+          "Requisito minimo": "Ambiente local com app e dependencias.",
+          "Criterio de aceite": "docker compose up sobe a aplicacao localmente."
+        },
+        {
+          "Item": ".env.example",
+          "Requisito minimo": "Lista variaveis sem segredos.",
+          "Criterio de aceite": "Novo ambiente pode ser configurado sem consultar\ncodigo-fonte."
+        },
+        {
+          "Item": "CI/CD",
+          "Requisito minimo": "Build e checks basicos automatizados.",
+          "Criterio de aceite": "Pipeline falha se build ou testes essenciais\nquebrarem."
+        },
+        {
+          "Item": "Changelog",
+          "Requisito minimo": "Registrar mudancas relevantes por versao.",
+          "Criterio de aceite": "Cliente consegue saber o que mudou em cada\nentrega."
+        }
+      ]
+    },
+    {
+      "page": 6,
+      "table_index": 3,
+      "title_or_context": "A tela de catalogo deve separar campos de venda, campos operacionais e campos tecnicos. Isso melhora\nUX e evita sobrecarregar o vendedor.",
+      "columns": [
+        "Grupo",
+        "Campos minimos",
+        "Observacao"
+      ],
+      "rows": [
+        {
+          "Grupo": "Card do produto",
+          "Campos minimos": "name, sku, brand.name, category.name, is active, current price ou\n_ _\nbest current price, stock quantity ou total stock\n_ _ _ _",
+          "Observacao": "Deve ser a visao mais rapida e\nobjetiva."
+        },
+        {
+          "Grupo": "Detalhe comercial",
+          "Campos minimos": "description, unit, offers, supplier, price, unit price, valid from,\n_ _\nvalid to\n_",
+          "Observacao": "Mostrar preco unitario com\ndestaque quando existir."
+        },
+        {
+          "Grupo": "Estoque",
+          "Campos minimos": "total stock, stock lots.quantity, location.name, lot number\n_ _ _",
+          "Observacao": "Pode ser resumido no card e\ncompleto no detalhe."
+        },
+        {
+          "Grupo": "Dados fiscais",
+          "Campos minimos": "ncm, anvisa code, tax profile.name\n_ _",
+          "Observacao": "Secao secundaria, nao deve\npoluir o card."
+        },
+        {
+          "Grupo": "Atributos",
+          "Campos minimos": "attributes",
+          "Observacao": "Renderizar como lista dinamica\nchave-valor."
+        },
+        {
+          "Grupo": "Integracoes",
+          "Campos minimos": "external ids\n_",
+          "Observacao": "Visivel apenas para usuarios\ninternos ou suporte."
+        }
+      ]
+    },
+    {
+      "page": 7,
+      "table_index": 1,
+      "title_or_context": "-\nErros de API exibem mensagem amigavel e opcao de tentar novamente.\n11. Entregaveis minimos esperados",
+      "columns": [
+        "Entregavel",
+        "Descricao"
+      ],
+      "rows": [
+        {
+          "Entregavel": "Aplicacao web",
+          "Descricao": "Interface de catalogo com busca, filtros, listagem e detalhe de produto."
+        },
+        {
+          "Entregavel": "Codigo versionado",
+          "Descricao": "Repositorio Git com padrao de commits, branches e tags de release."
+        },
+        {
+          "Entregavel": "Docker",
+          "Descricao": "Dockerfile e docker-compose.yml para subir ambiente local e preparar deploy."
+        },
+        {
+          "Entregavel": "Documentacao tecnica",
+          "Descricao": "README com instalacao, variaveis, arquitetura, endpoints usados e comandos principais."
+        },
+        {
+          "Entregavel": "Documentacao de uso",
+          "Descricao": "Guia rapido para vendedores: buscar, filtrar, abrir produto e interpretar preco/estoque."
+        },
+        {
+          "Entregavel": "Changelog",
+          "Descricao": "Registro resumido de cada versao entregue."
+        },
+        {
+          "Entregavel": "Checklist de aceite",
+          "Descricao": "Lista validada na homologacao com os criterios do item 10."
+        }
+      ]
+    }
+  ]
+}
