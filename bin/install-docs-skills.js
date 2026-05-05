@@ -5,7 +5,9 @@ const os = require("os");
 const path = require("path");
 
 const SKILLS = [
+  "docs-analyze",
   "docs-init",
+  "docs-pdf-context",
   "docs-executor",
   "docs-plan-ap",
   "docs-plan-sddr",

@@ -1,0 +1,7 @@
+interface:
+  display_name: "DOCS Analyze"
+  short_description: "Analisa dono de contexto DOCS"
+  default_prompt: "Use $docs-analyze para localizar o plano DOCS responsavel por esta mudanca antes da execucao."
+
+policy:
+  allow_implicit_invocation: false

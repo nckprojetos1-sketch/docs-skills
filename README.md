@@ -94,9 +94,34 @@ O que ela faz:
 Entrega esperada: um plano compacto, objetivo e executavel para uma mudanca
 local. Ela nao cria `xx-sddd/`; essa estrutura pertence aos subplanos de AP.
 
+### `$docs-pdf-context`
+
+Use quando voce tem um PDF de requisitos e quer preparar contexto enxuto antes
+de abrir um AP ou SDDR. Ela nao cria plano; apenas transforma o PDF em material
+consultavel.
+
+O que ela faz:
+
+- valida o PDF informado e detecta se ha DOCS instalado no repositorio;
+- extrai texto por pagina, secoes, requisitos, endpoints e criterios de aceite;
+- extrai tabelas com PyMuPDF quando possivel e usa `pypdf` como fallback de
+  texto;
+- gera `README.md` em `DOCS-Engenharia-de-Contexto/references/global/<pdf>/`
+  quando DOCS existe, ou em `<pdf-stem>-context/` ao lado do PDF quando nao
+  existe;
+- aceita `--out <diretorio>` para usar exatamente uma saida manual;
+- cria `tables.json` somente quando houver tabelas reais detectadas;
+- falha com mensagem clara para PDFs escaneados ou sem texto extraivel, sem
+  inventar contexto.
+
+Entrega esperada: um pacote de contexto com sintese operacional, requisitos,
+fluxos explicitos ou inferidos, criterios de aceite, restricoes e
+rastreabilidade por pagina, pronto para ser usado por `$docs-plan-ap` ou
+`$docs-plan-sddr`.
+
 ### `$docs-executor`
 
-Use quando ja existe um plano, subplano, SDDD ou SDDR e voce quer que o agente
+Use quando ja existe um plano, subplano, SDDDR ou SDDR e voce quer que o agente
 execute a mudanca com base nesse contrato.
 
 O que ela faz:
@@ -171,6 +196,7 @@ docs-skills/
 |-- skills/
 |   |-- docs-init/
 |   |-- docs-executor/
+|   |-- docs-pdf-context/
 |   |-- docs-plan-ap/
 |   |-- docs-plan-sddr/
 |   `-- docs-reviewer/

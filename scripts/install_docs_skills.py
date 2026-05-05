@@ -8,7 +8,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-SKILLS = ["docs-init", "docs-executor", "docs-plan-ap", "docs-plan-sddr", "docs-reviewer"]
+SKILLS = ["docs-init", "docs-analyze", "docs-pdf-context", "docs-executor", "docs-plan-ap", "docs-plan-sddr", "docs-reviewer"]
 LEGACY_CODEX_SKILLS = [
     "xml-docs-init-executor",
     "xml-docs-init-plan-ap",

@@ -1,0 +1,7 @@
+interface:
+  display_name: "DOCS PDF Context"
+  short_description: "Extrai PDF de requisitos para contexto DOCS"
+  default_prompt: "Use $docs-pdf-context para transformar um PDF de requisitos em README.md e tables.json quando houver tabelas."
+
+policy:
+  allow_implicit_invocation: false
