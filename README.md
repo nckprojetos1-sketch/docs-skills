@@ -160,6 +160,27 @@ O que ela revisa:
 Entrega esperada: achados primeiro, agrupados por severidade ou risco de metodo,
 com evidencia consultada, justificativa, risco e proximo passo recomendado.
 
+### `$docs-clean-plan-context`
+
+Use depois que um SDDR ou subplano de AP ja foi implementado e marcado como
+`completed`, quando `prd.md` e `spec.md` deixaram de ser a melhor fonte de
+contexto e os reports devem assumir esse papel.
+
+O que ela faz:
+
+- confirma que o alvo esta `completed` e possui reports de execucao;
+- le `prd.md`, `spec.md` e os reports existentes;
+- cria ou atualiza `reports/report-context-consolidation.md`;
+- move para esse report o problema original, objetivo, solucao semantica,
+  escopo util, criterios de aceite e areas impactadas;
+- apaga apenas `prd.md` e `spec.md` depois da consolidacao;
+- preserva `dependencies.md`, `status.md`, reports existentes e auditoria;
+- atualiza indices somente se PRD/SPEC eram pontos de entrada indexados.
+
+Entrega esperada: um plano concluido mais enxuto, onde reports explicam tanto o
+que foi implementado quanto o contexto semantico necessario para entender por
+que a implementacao existe.
+
 ## Como o Instalador Funciona
 
 O script `scripts/install_docs_skills.py`:
@@ -201,7 +222,8 @@ docs-skills/
 |   |-- docs-pdf-context/
 |   |-- docs-plan-ap/
 |   |-- docs-plan-sddr/
-|   `-- docs-reviewer/
+|   |-- docs-reviewer/
+|   `-- docs-clean-plan-context/
 `-- help/
     |-- bootstrap-core.md
     |-- conventions.md

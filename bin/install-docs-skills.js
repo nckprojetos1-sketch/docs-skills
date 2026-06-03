@@ -12,6 +12,7 @@ const SKILLS = [
   "docs-plan-ap",
   "docs-plan-sddr",
   "docs-reviewer",
+  "docs-clean-plan-context",
 ];
 
 const LEGACY_CODEX_SKILLS = [
@@ -132,7 +133,7 @@ function validateSkill(skillDir) {
   }
 
   const text = fs.readFileSync(skillMd, "utf8");
-  if (!text.startsWith("---\n")) {
+  if (!text.startsWith("---\n") && !text.startsWith("---\r\n")) {
     errors.push(`${name}: missing YAML frontmatter`);
   }
   if (!text.includes(`name: ${name}`)) {

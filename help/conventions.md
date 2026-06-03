@@ -105,6 +105,12 @@ CADA xx-sddd:
   - spec.md
   - dependencies.md
 
+EXCECAO POS-CONCLUSAO:
+  - em SDDR ou subplano AP com status completed, prd.md e spec.md podem ser removidos
+  - antes da remocao, o contexto semantico util deve ser consolidado em reports/report-context-consolidation.md
+  - dependencies.md, status.md e reports/ permanecem obrigatorios
+  - enquanto o plano ou subplano nao estiver completed, prd.md e spec.md continuam obrigatorios
+
 ================================================================================
 ESTRUTURA OBRIGATORIA
 ================================================================================
@@ -173,6 +179,10 @@ Relatorios sao a base de:
   - prova de execucao
   - transferencia de contexto
   - historico tecnico
+
+Depois que um SDDR ou subplano AP estiver completed, reports/ tambem deve conter
+o contexto semantico duravel que antes estava em prd.md e spec.md, quando esses
+arquivos forem removidos.
 
 No subplano AP:
   - reports/ da raiz documenta o que foi executado nos xx-sddd
@@ -268,6 +278,8 @@ X manter bootstrap como init paralelo ao executor
 X gravar handoff em agent-audit
 X usar `references/` para recontar contexto que continua melhor no plano
 X abrir bootstrap lendo registry completo por padrao
+X apagar prd.md ou spec.md antes de consolidar o contexto util em reports/
+X apagar prd.md ou spec.md de plano ou subplano que ainda nao esta completed
 
 ================================================================================
 FIM DO conventions.md

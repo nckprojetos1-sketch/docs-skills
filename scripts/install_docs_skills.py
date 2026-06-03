@@ -8,7 +8,16 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-SKILLS = ["docs-init", "docs-analyze", "docs-pdf-context", "docs-executor", "docs-plan-ap", "docs-plan-sddr", "docs-reviewer"]
+SKILLS = [
+    "docs-init",
+    "docs-analyze",
+    "docs-pdf-context",
+    "docs-executor",
+    "docs-plan-ap",
+    "docs-plan-sddr",
+    "docs-reviewer",
+    "docs-clean-plan-context",
+]
 LEGACY_CODEX_SKILLS = [
     "xml-docs-init-executor",
     "xml-docs-init-plan-ap",
@@ -57,7 +66,7 @@ def basic_validate_skill(skill_dir: Path) -> list[str]:
         return errors
 
     text = skill_md.read_text(encoding="utf-8")
-    if text.startswith("---\n") is False:
+    if not (text.startswith("---\n") or text.startswith("---\r\n")):
         errors.append(f"{skill_dir.name}: missing YAML frontmatter")
     if f"name: {skill_dir.name}" not in text:
         errors.append(f"{skill_dir.name}: frontmatter name mismatch")

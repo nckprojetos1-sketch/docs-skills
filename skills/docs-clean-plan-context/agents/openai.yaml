@@ -1,0 +1,7 @@
+interface:
+  display_name: "DOCS Clean Plan Context"
+  short_description: "Consolida PRD/SPEC em reports"
+  default_prompt: "Use $docs-clean-plan-context para consolidar PRD/SPEC em reports apos a conclusao de um plano DOCS."
+
+policy:
+  allow_implicit_invocation: false

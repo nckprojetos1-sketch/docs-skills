@@ -95,6 +95,10 @@ Cada `xx-sddd/` deve conter:
 - `spec.md`
 - `dependencies.md`
 
+Apos o subplano estar `completed`, `prd.md` e `spec.md` podem ser removidos
+somente quando o contexto semantico util tiver sido consolidado em
+`reports/report-context-consolidation.md`.
+
 ### SDDR
 
 Usar SDDR quando a mudanca for local, pequena ou bem delimitada.
@@ -108,6 +112,10 @@ Raiz canonica:
 - `references/agent-audit/`
 
 `dependencies.md` entra quando houver dependencia explicita.
+
+Apos o SDDR estar `completed`, `prd.md` e `spec.md` podem ser removidos somente
+quando o contexto semantico util tiver sido consolidado em
+`reports/report-context-consolidation.md`.
 
 ## Estados e rastreabilidade
 
