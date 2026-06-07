@@ -44,7 +44,8 @@ Close these before creating files:
 - expected validation commands
 - explicit dependencies, if any
 
-Do not create `xx-sddd/` for SDDR. That structure belongs to AP subplans.
+Create `01-sddd/` for every SDDR. Additional `xx-sddd/` directories may be
+created only when the first stage does not cover the work cleanly.
 
 ## Creating The SDDR
 
@@ -52,13 +53,14 @@ Use `python scripts/create_sddr.py --repo-path <repo> --name "<name>"` after the
 
 The SDDR must be created in `plans-to-be-executed/` with:
 
-- `prd.md`
-- `spec.md`
 - `status.md`
 - `reports/`
 - `references/agent-audit/`
+- `01-sddd/prd.md`
+- `01-sddd/spec.md`
+- `01-sddd/dependencies.md`
 
-Create `dependencies.md` only when there is an explicit dependency.
+Each `xx-sddd/` must include `prd.md`, `spec.md`, and `dependencies.md`.
 
 ## Final Output
 

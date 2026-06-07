@@ -52,13 +52,12 @@ Use SDDR for local, small, or bounded work.
 
 Canonical SDDR root:
 
-- `prd.md`
-- `spec.md`
 - `status.md`
 - `reports/`
 - `references/agent-audit/`
+- `01-sddd/`
 
-`dependencies.md` exists in SDDR only when there is an explicit dependency.
+Each SDDR `xx-sddd/` has `prd.md`, `spec.md`, and `dependencies.md`.
 
 ## Status, Reports, Audit
 

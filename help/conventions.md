@@ -81,12 +81,10 @@ HISTORICO INDEXADO:
   - references/history/abandoned-index.md
 
 SDDR raiz:
-  - prd.md
-  - spec.md
   - status.md
   - reports/
   - references/agent-audit/
-  - dependencies.md quando houver dependencia explicita
+  - 01-sddd/
 
 AP raiz:
   - architecting-plan/
@@ -106,7 +104,7 @@ CADA xx-sddd:
   - dependencies.md
 
 EXCECAO POS-CONCLUSAO:
-  - em SDDR ou subplano AP com status completed, prd.md e spec.md podem ser removidos
+  - em SDDR ou subplano AP com status completed, xx-sddd/prd.md e xx-sddd/spec.md podem ser removidos
   - antes da remocao, o contexto semantico util deve ser consolidado em reports/report-context-consolidation.md
   - dependencies.md, status.md e reports/ permanecem obrigatorios
   - enquanto o plano ou subplano nao estiver completed, prd.md e spec.md continuam obrigatorios
@@ -136,8 +134,9 @@ Regras para AP:
   - reports ficam na raiz do subplano, nao dentro do xx-sddd
 
 Regras para SDDR:
-  - SDDR nao usa xx-sddd
-  - SDDR fica na raiz do plano, nao em subetapas internas artificiais
+  - todo SDDR deve nascer com 01-sddd/
+  - 02-sddd/ e seguintes so surgem quando a etapa anterior nao cobre o trabalho
+  - reports ficam na raiz do SDDR, nao dentro do xx-sddd
 
 ================================================================================
 STATUS
@@ -165,7 +164,6 @@ Dependencias devem ser explicitas.
 
 Regras:
   - dependencies.md e obrigatorio em cada xx-sddd
-  - dependencies.md e obrigatorio em SDDR quando houver dependencia
 
 Dependencia implicita e erro de metodo.
 

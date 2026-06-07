@@ -1,10 +1,10 @@
-# PRD
+# PRD - 01-sddd
 
 ## Contexto
-Descrever o problema.
+Descrever o problema desta etapa.
 
 ## Objetivo
-Explicar o que a mudanca precisa entregar.
+Explicar o que esta etapa precisa entregar.
 
 ## Escopo
 - o que entra

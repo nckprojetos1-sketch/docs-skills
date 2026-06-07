@@ -105,15 +105,20 @@ Usar SDDR quando a mudanca for local, pequena ou bem delimitada.
 
 Raiz canonica:
 
-- `prd.md`
-- `spec.md`
 - `status.md`
 - `reports/`
 - `references/agent-audit/`
+- `01-sddd/`
 
-`dependencies.md` entra quando houver dependencia explicita.
+Cada `xx-sddd/` deve conter:
 
-Apos o SDDR estar `completed`, `prd.md` e `spec.md` podem ser removidos somente
+- `prd.md`
+- `spec.md`
+- `dependencies.md`
+
+`02-sddd/` e seguintes so surgem quando a etapa anterior nao cobre o trabalho.
+
+Apos o SDDR estar `completed`, `prd.md` e `spec.md` dos `xx-sddd/` podem ser removidos somente
 quando o contexto semantico util tiver sido consolidado em
 `reports/report-context-consolidation.md`.
 
@@ -152,7 +157,7 @@ subplano ou codigo.
 - AP: plano arquitetural para trabalho estrutural ou multi-frente.
 - SDDR: plano simples para mudanca local.
 - subplano `__sp`: unidade executavel dentro de um AP.
-- `xx-sddd`: etapa local dentro de um subplano AP.
+- `xx-sddd`: etapa local dentro de um SDDR ou subplano AP.
 - `reports/`: prova de execucao e handoff.
 - `agent-audit/`: memoria operacional curta por run.
 

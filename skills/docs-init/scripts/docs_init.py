@@ -59,7 +59,7 @@ Regras canonicas do metodo DOCS.
 
 - Todo plano fica em plans-to-be-executed/, plans-executed/ ou plans-abandoned/.
 - AP usa subplanos NN-name__sp com 01-sddd/.
-- SDDR nao usa xx-sddd.
+- SDDR usa 01-sddd/ direto na raiz do plano.
 - Estados oficiais: draft, ready, running, blocked, completed.
 - Handoff fica em reports/ ou na resposta final, nunca em agent-audit/.
 """

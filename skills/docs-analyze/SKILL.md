@@ -52,7 +52,7 @@ Read `references/docs-method-core.md` only when the repo's own DOCS files are mi
 1. Normalize the user request into topic, desired change, and likely affected code area.
 2. Use the bootstrap registry to find likely records, `best_entry_path`, and related plan paths.
 3. Inspect the strongest candidate plans in `plans-to-be-executed/` and `plans-executed/`.
-4. Read the relevant `status.md`, `prd.md`, `spec.md`, `reports/`, or `xx-sddd/` needed to confirm ownership.
+4. Read the relevant `status.md`, `reports/`, or `xx-sddd/` needed to confirm ownership.
 5. Inspect the correlated code or repository area cited by the request.
 6. Select one primary owner path and list any related supporting plans.
 7. If no owner is defensible, recommend opening a new plan:
@@ -82,11 +82,11 @@ When an owner exists, specify exactly which DOCS artifacts a later executor must
 
 For SDDR owners:
 
-- `prd.md`
-- `spec.md`
+- the relevant `xx-sddd/prd.md`
+- the relevant `xx-sddd/spec.md`
 - `reports/`
 - `status.md` only if the real state changes
-- `dependencies.md` only if the new request introduces an explicit dependency
+- the relevant `xx-sddd/dependencies.md` only if the new request changes dependencies
 
 For AP subplan owners:
 
@@ -94,7 +94,7 @@ For AP subplan owners:
 - the relevant `xx-sddd/spec.md`
 - the subplan root `reports/`
 - the subplan root `status.md` only if the real state changes
-- the relevant `xx-sddd/dependencies.md` only if the new request introduces an explicit dependency
+- the relevant `xx-sddd/dependencies.md` only if the new request changes dependencies
 
 For AP root owners:
 

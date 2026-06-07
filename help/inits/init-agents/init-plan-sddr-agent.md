@@ -39,11 +39,16 @@ O planner SDDR deve fechar:
 Ao abrir o SDDR, o planner deve criar:
 
 - pasta do plano em `plans-to-be-executed/`
-- `prd.md`
-- `spec.md`
 - `status.md`
 - `reports/`
 - `references/agent-audit/`
+- `01-sddd/`
+
+Em cada `xx-sddd/`, deve gerar:
+
+- `prd.md`
+- `spec.md`
+- `dependencies.md`
 
 ## Limite do planner
 
@@ -51,6 +56,7 @@ O planner SDDR para em planejamento leve:
 
 - estrutura criada
 - PRD e SPEC iniciais escritos
+- `01-sddd/` criado
 - escopo e aceite definidos
 
 Ele nao:

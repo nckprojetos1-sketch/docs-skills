@@ -1,4 +1,4 @@
-# SPEC
+# SPEC - 01-sddd
 
 ## Arquivos alvo
 - listar arquivos ou areas alvo
@@ -7,7 +7,7 @@
 - listar contratos relevantes
 
 ## Fluxo tecnico
-Descrever a implementacao planejada.
+Descrever a implementacao planejada desta etapa.
 
 ## Validacoes
 - comando 1

@@ -27,7 +27,7 @@ Read, in this order:
 3. `DOCS-Engenharia-de-Contexto/references/_generated/context-registry-bootstrap.json`
 4. the target SDDR or AP subplan `status.md`
 5. the target `reports/`
-6. the target `prd.md` and `spec.md`
+6. the target `xx-sddd/prd.md` and `xx-sddd/spec.md` pairs
 7. `help/conventions.md` only for structural, DoD, or governance conflicts
 
 Open the full registry only if the bootstrap index does not identify the target
@@ -37,11 +37,12 @@ or if removing the files changes navigation.
 
 Operate only on one explicit target at a time:
 
-- completed SDDR root with `status.md`, `reports/`, `prd.md`, and `spec.md`;
+- completed SDDR root with `status.md`, `reports/`, and one or more
+  `xx-sddd/prd.md` plus `xx-sddd/spec.md` pairs;
 - completed AP subplan `NN-*__sp/` with `status.md`, `reports/`, and one or more
   `xx-sddd/prd.md` plus `xx-sddd/spec.md` pairs.
 
-For AP subplans, write the consolidation report to the subplan root `reports/`.
+For SDDRs and AP subplans, write the consolidation report to the target root `reports/`.
 Do not write reports inside `xx-sddd/`.
 
 ## Hard Gates
@@ -91,7 +92,7 @@ replace PRD/SPEC as a reader entrypoint.
 
 Allowed deletions:
 
-- SDDR: `prd.md`, `spec.md`
+- SDDR: each completed `xx-sddd/prd.md` and `xx-sddd/spec.md`
 - AP subplan: each completed `xx-sddd/prd.md` and `xx-sddd/spec.md`
 
 Never delete:

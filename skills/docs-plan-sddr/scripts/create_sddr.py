@@ -49,7 +49,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--repo-path", help="Repo root or DOCS root. Defaults to cwd.")
     parser.add_argument("--name", required=True, help="SDDR name.")
     parser.add_argument("--objective", default="", help="Short objective.")
-    parser.add_argument("--with-dependencies", action="store_true", help="Create dependencies.md.")
     return parser.parse_args()
 
 
@@ -62,26 +61,30 @@ def main() -> int:
         if plan_root.exists():
             raise ScriptError(f"SDDR already exists: {plan_root}")
 
+        sddd_root = plan_root / "01-sddd"
         (plan_root / "reports").mkdir(parents=True)
         (plan_root / "references" / "agent-audit").mkdir(parents=True)
+        sddd_root.mkdir(parents=True)
         write_new(
             plan_root / "status.md",
             f"status: draft\n\n## Objetivo\n{args.objective or 'Registrar o estado oficial do SDDR.'}\n\n## Checklist inicial\n- [ ] objetivo definido\n- [ ] escopo definido\n- [ ] handoff para executor pronto\n",
         )
         write_new(
-            plan_root / "prd.md",
-            "# PRD\n\n## Contexto\nDescrever o problema.\n\n## Objetivo\nExplicar o que a mudanca precisa entregar.\n\n## Escopo\n- o que entra\n- o que fica fora\n\n## Criterios de aceite\n- criterio 1\n- criterio 2\n",
+            sddd_root / "prd.md",
+            "# PRD - 01-sddd\n\n## Contexto\nDescrever o problema desta etapa.\n\n## Objetivo\nExplicar o que esta etapa precisa entregar.\n\n## Escopo\n- o que entra\n- o que fica fora\n\n## Criterios de aceite\n- criterio 1\n- criterio 2\n",
         )
         write_new(
-            plan_root / "spec.md",
-            "# SPEC\n\n## Arquivos alvo\n- listar arquivos ou areas alvo\n\n## Contratos impactados\n- listar contratos relevantes\n\n## Fluxo tecnico\nDescrever a implementacao planejada.\n\n## Validacoes\n- comando 1\n- comando 2\n",
+            sddd_root / "spec.md",
+            "# SPEC - 01-sddd\n\n## Arquivos alvo\n- listar arquivos ou areas alvo\n\n## Contratos impactados\n- listar contratos relevantes\n\n## Fluxo tecnico\nDescrever a implementacao planejada desta etapa.\n\n## Validacoes\n- comando 1\n- comando 2\n",
+        )
+        write_new(
+            sddd_root / "dependencies.md",
+            "# dependencies - 01-sddd\n\n## Dependencias explicitas\n- listar dependencias desta etapa\n\n## Bloqueios conhecidos\n- nenhum, se nao houver\n",
         )
         write_new(plan_root / "reports" / "README.md", "# reports\n\nProvas de execucao e handoffs deste SDDR.\n")
         write_new(plan_root / "references" / "agent-audit" / "README.md", "# agent-audit\n\nMemoria operacional curta das runs deste SDDR.\n")
-        if args.with_dependencies:
-            write_new(plan_root / "dependencies.md", "# dependencies\n\n## Dependencias explicitas\n- listar dependencias\n\n## Bloqueios conhecidos\n- nenhum, se nao houver\n")
 
-        print(json.dumps({"sddr_root": str(plan_root), "dependencies": args.with_dependencies}, ensure_ascii=True, indent=2))
+        print(json.dumps({"sddr_root": str(plan_root), "sddd": "01-sddd"}, ensure_ascii=True, indent=2))
         return 0
     except ScriptError as exc:
         print(json.dumps({"error": str(exc)}, ensure_ascii=True))

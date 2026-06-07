@@ -88,11 +88,11 @@ O que ela faz:
 - define objetivo, problema, limites de escopo, riscos, restricoes, criterios de
   aceite e comandos de validacao esperados;
 - cria um SDDR em `plans-to-be-executed/`;
-- gera `prd.md`, `spec.md`, `status.md`, `reports/` e auditoria do plano;
-- cria `dependencies.md` somente quando houver dependencia explicita.
+- gera `status.md`, `reports/`, auditoria do plano e `01-sddd/`;
+- cria em cada `xx-sddd/` `prd.md`, `spec.md` e `dependencies.md`.
 
 Entrega esperada: um plano compacto, objetivo e executavel para uma mudanca
-local. Ela nao cria `xx-sddd/`; essa estrutura pertence aos subplanos de AP.
+local. Ela usa `xx-sddd/` direto na raiz do SDDR, sem subplano `__sp`.
 
 ### `$docs-pdf-context`
 
