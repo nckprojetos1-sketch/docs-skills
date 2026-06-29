@@ -80,8 +80,9 @@ def basic_validate_skill(skill_dir: Path) -> list[str]:
         errors.append(f"{skill_dir.name}: missing agents/openai.yaml")
     else:
         yaml_text = openai_yaml.read_text(encoding="utf-8")
-        if "allow_implicit_invocation: false" not in yaml_text:
-            errors.append(f"{skill_dir.name}: explicit invocation policy missing")
+        expected_policy = "allow_implicit_invocation: true" if skill_dir.name == "docs-init" else "allow_implicit_invocation: false"
+        if expected_policy not in yaml_text:
+            errors.append(f"{skill_dir.name}: expected policy missing: {expected_policy}")
 
     return errors
 
@@ -119,6 +120,18 @@ def disable_legacy(codex_skills: Path, disabled_root: Path) -> list[str]:
         shutil.move(str(source), str(destination))
         moved.append(str(destination))
     return moved
+
+
+def copy_docs_source(source_root: Path, docs_init_destination: Path) -> str | None:
+    source = source_root / "DOCS-Engenharia-de-Contexto"
+    if not source.is_dir():
+        return None
+
+    destination = docs_init_destination / "assets" / "DOCS-Engenharia-de-Contexto"
+    if destination.exists():
+        shutil.rmtree(destination)
+    shutil.copytree(source, destination, ignore=shutil.ignore_patterns(".git", "__pycache__"))
+    return str(destination)
 
 
 def clean_docs_skills(target_root: Path, disabled_root: Path) -> list[str]:
@@ -176,10 +189,16 @@ def main() -> int:
         for name in SKILLS:
             destination = codex_skills / name
             installed[str(destination)] = copy_tree(source_root / name, destination, backup_root / ".codex")
+            copied_docs = copy_docs_source(root, destination) if name == "docs-init" else None
+            if copied_docs is not None:
+                installed[copied_docs] = "copied-docs-source"
             codex_installed_dirs.append(destination)
 
         agents_docs_init = agents_skills / "docs-init"
         installed[str(agents_docs_init)] = copy_tree(source_root / "docs-init", agents_docs_init, backup_root / ".agents")
+        copied_agents_docs = copy_docs_source(root, agents_docs_init)
+        if copied_agents_docs is not None:
+            installed[copied_agents_docs] = "copied-docs-source"
 
         installed_errors = validate_all(codex_installed_dirs + [agents_docs_init])
         if installed_errors:

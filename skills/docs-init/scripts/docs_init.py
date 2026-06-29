@@ -115,6 +115,25 @@ def normalize_docs(docs_root: Path) -> list[str]:
     return created
 
 
+def find_canonical_docs_source() -> Path | None:
+    script_root = Path(__file__).resolve().parents[1]
+    candidates = [
+        script_root / "assets" / DOCS_DIR_NAME,
+        script_root.parents[1] / DOCS_DIR_NAME,
+    ]
+
+    for candidate in candidates:
+        if candidate.is_dir():
+            return candidate
+    return None
+
+
+def copy_canonical_docs(source: Path, docs_root: Path) -> list[str]:
+    docs_root.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(source, docs_root, ignore=shutil.ignore_patterns(".git", "__pycache__"))
+    return [str(docs_root)]
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Clone, scaffold, or validate DOCS-Engenharia-de-Contexto.")
     parser.add_argument("--repo-path", help="Repo root or DOCS root. Defaults to the current working directory.")
@@ -140,7 +159,12 @@ def main() -> int:
 
         normalized_entries: list[str] = []
         if docs_root.exists():
-            action = "validated"
+            normalized_entries = normalize_docs(docs_root)
+            action = "normalized" if normalized_entries else "validated"
+        elif canonical_source := find_canonical_docs_source():
+            action = "copied-and-normalized"
+            normalized_entries = copy_canonical_docs(canonical_source, docs_root)
+            normalized_entries.extend(normalize_docs(docs_root))
         elif not args.no_clone and clone_docs(args.remote, docs_root):
             action = "cloned"
             normalized_entries = normalize_docs(docs_root)

@@ -1,46 +1,71 @@
 ---
 name: docs-init
-description: Bootstrap or validate `DOCS-Engenharia-de-Contexto` in a repository using the current DOCS method. Use when the user says `/docs-init`, invokes `$docs-init`, asks to install/preparar/validar DOCS in a repo, or when another DOCS skill detects that the repository does not contain the DOCS root.
+description: Persistent DOCS environment entrypoint and router. Bootstrap, normalize, or validate `DOCS-Engenharia-de-Contexto` in a repository, then route user requests to the correct DOCS method skill. Use when the user says `/docs-init`, invokes `$docs-init`, asks to iniciar/preparar/validar um ambiente DOCS, works inside a repository with DOCS, or when another DOCS skill detects that the repository does not contain the DOCS root.
 ---
 
 # docs-init
 
 Treat `/docs-init` as a textual alias for this skill, not as a shell command.
 
-## Workflow
+This is the persistent entrypoint for the DOCS method. Do not treat this skill as disposable and do not ask to remove it after use.
+
+## Bootstrap Workflow
 
 1. Resolve the target repository root from the current working directory or the path the user gave.
 2. Run `python scripts/docs_init.py [--repo-path <path>]`.
-3. If `DOCS-Engenharia-de-Contexto` is missing, clone the official DOCS source when possible and normalize the current canonical entries.
-4. If the DOCS root already exists, validate only. Do not pull, overwrite, or rewrite existing DOCS content unless the user explicitly asks.
-5. Report the action, `repo_root`, `docs_root`, validation errors, warnings, and normalized entries.
+3. If `DOCS-Engenharia-de-Contexto` is missing, copy the canonical DOCS source bundled with this package when available, excluding `.git`, then normalize missing minimum entries.
+4. If the DOCS root already exists, normalize only missing entries. Never overwrite existing DOCS files.
+5. Report `repo_root`, `docs_root`, action, validation errors, warnings, and normalized entries.
 
-## Conversation Behavior
+## Environment Behavior
 
-- If invoked without extra text, inspect the current directory and validate or bootstrap that repository.
-- If the current directory is ambiguous, ask for the target repo path in one concise question.
-- If a repository already has DOCS, explain that this skill validates structure and does not update the method automatically.
-- If another DOCS skill routed here because DOCS is missing, return a short next step telling the user to rerun the original skill after initialization.
-- After a successful first-use initialization or validation, treat this skill as disposable. Explain that `docs-init` is intended for one-time setup, then ask the user for permission to remove the installed `docs-init` skill from both Codex skill locations. If the user agrees, delete only these directories:
-  - `~/.codex/skills/docs-init`
-  - `~/.agents/skills/docs-init`
-- Use the platform shell safely when removing `docs-init`. On Windows, prefer:
+- If invoked only to initialize or validate, stop after the bootstrap report.
+- If invoked with a work request and DOCS is valid, route the request to the correct DOCS skill.
+- If another DOCS skill routed here because DOCS is missing, initialize DOCS and continue with the original intent when it is clear.
+- If intent is clear, continue in the same turn by loading and following the selected sibling skill.
+- If intent is ambiguous and the choice changes the path, inspect the minimum DOCS bootstrap and ask one concise question.
+- If the selected sibling skill cannot be found or loaded, return an explicit handoff telling the user which skill to invoke.
 
-```powershell
-Remove-Item -LiteralPath "$HOME\.codex\skills\docs-init","$HOME\.agents\skills\docs-init" -Recurse -Force -ErrorAction SilentlyContinue
-```
+## Required Bootstrap For Routing
 
-On macOS/Linux, prefer:
+When the request is not only initialization, read in this order:
 
-```bash
-rm -rf "$HOME/.codex/skills/docs-init" "$HOME/.agents/skills/docs-init"
-```
+1. `DOCS-Engenharia-de-Contexto/help/bootstrap-core.md`
+2. `DOCS-Engenharia-de-Contexto/references/README.md`
+3. `DOCS-Engenharia-de-Contexto/references/_generated/context-registry-bootstrap.json`
+4. `best_entry_path` for the topic, when found
+5. `context-registry.json` only when the bootstrap index is not enough
+6. human bucket mirror only when the search is still broad
+7. correlated code areas when needed to confirm whether an existing plan owns the work
 
-- Do not remove any other DOCS skill during self-removal. Tell the user to restart Codex after removal so the skill list is refreshed.
+Read `references/docs-method-core.md` only when the repo's own DOCS files are missing detail or you need a compact refresher.
+
+## Routing Rules
+
+Load the sibling skill's `SKILL.md` and follow it.
+
+- Use `$docs-plan-sddr` when the user explicitly asks for SDDR, or asks for a new small/local/bounded change with no defensible owner plan.
+- Use `$docs-plan-ap` when the user explicitly asks for AP, or wants a complex, structural, multi-module, multi-stage, or architecture-level plan.
+- Use `$docs-executor` when the user asks to implement, fix, update, or execute work that is already planned/documented, especially a simple change tied to an existing plan.
+- Use `$docs-analyze` when the owner plan is unclear, the user asks where context lives, or the request needs a recommendation between existing plan, SDDR, and AP.
+- Use `$docs-reviewer` when the user asks to review DOCS structure, indexes, history, or method coherence.
+- Use `$docs-clean-plan-context` when the user asks to consolidate or remove obsolete PRD/SPEC context after a completed SDDR or AP subplan.
+- Use `$docs-pdf-context` when the user provides or references a requirements PDF and wants context prepared for later planning.
+
+Do not automatically choose a skill when the request lacks enough signal. Ask only for the missing decision that changes routing.
+
+## Sibling Skill Loading
+
+Try these locations for the selected skill, in order:
+
+1. a sibling directory next to this installed skill
+2. `~/.codex/skills/<skill-name>/SKILL.md`
+3. `~/.agents/skills/<skill-name>/SKILL.md`
+4. repository source path `skills/<skill-name>/SKILL.md`
+
+After loading the sibling skill, obey its workflow and mutation rules. The sibling skill becomes the operative contract for the rest of the turn.
 
 ## DOCS Contract
-
-Read `references/docs-method-core.md` when you need the current method summary.
 
 Minimum DOCS root entries:
 
@@ -59,14 +84,21 @@ Minimum generated registry entries:
 
 ## Output
 
-Return:
+For bootstrap-only requests, return:
 
 - detected `repo_root`
 - detected `docs_root`
-- action: `validated`, `cloned`, or `scaffolded`
+- action: `validated`, `normalized`, `copied-and-normalized`, `cloned`, or `scaffolded`
 - whether the DOCS root is valid
 - validation errors and warnings
 - any created or normalized files
+
+For routed work, start with a short note containing:
+
+- bootstrap action
+- selected DOCS skill
+- why it was selected
+- any remaining question, only if routing cannot be decided safely
 
 ## Resources
 

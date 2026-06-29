@@ -1,0 +1,1 @@
+Voce será o agente executador de um subplano de um plano maior do metodo DOCS, que tem sue contexto exposto em: c:\Repositorios\xml-extractor-with-reports\DOCS-Engenharia-de-Contexto\help. Arquitete um completo, detalhado e tecnico prd e spec em   com base no prompt de execução desse subplano:

@@ -41,21 +41,27 @@ Depois da instalacao, reinicie o Codex para carregar as skills novas.
 
 ### `$docs-init`
 
-Use quando um repositorio ainda nao tem `DOCS-Engenharia-de-Contexto/` ou quando
-voce quer validar se a estrutura DOCS basica existe.
+Use como porta de entrada persistente do metodo DOCS. Ela inicializa ou valida
+`DOCS-Engenharia-de-Contexto/` e, quando o usuario pedir uma tarefa dentro do
+metodo sem informar uma skill especifica, roteia para a skill DOCS correta.
 
 O que ela faz:
 
 - detecta o repositorio alvo a partir do diretorio atual ou do caminho informado;
-- cria ou valida a raiz `DOCS-Engenharia-de-Contexto/`;
+- cria a raiz `DOCS-Engenharia-de-Contexto/` copiando a fonte canonica deste
+  pacote quando ela ainda nao existe;
+- valida e normaliza a raiz DOCS, criando somente entradas ausentes e sem
+  sobrescrever arquivos existentes;
 - confere entradas minimas como `README.md`, `help/`, `references/`,
   `plans-to-be-executed/`, `plans-executed/` e `plans-abandoned/`;
-- reporta o que foi criado, normalizado, validado, avisos e erros.
+- reporta o que foi criado, normalizado, validado, avisos e erros;
+- escolhe e continua com `docs-executor`, `docs-plan-sddr`, `docs-plan-ap`,
+  `docs-analyze`, `docs-reviewer`, `docs-clean-plan-context` ou
+  `docs-pdf-context` quando a intencao do prompt for clara.
 
-Importante: `docs-init` e de uso unico. Depois de uma inicializacao ou validacao
-bem-sucedida, ela orienta o agente a pedir permissao para remover a propria skill
-de `~/.codex/skills/docs-init` e `~/.agents/skills/docs-init`. As outras skills
-DOCS nao sao removidas.
+Importante: `docs-init` agora e persistente. Ela deve continuar instalada para
+funcionar como ambiente DOCS e roteador implicito. As outras skills continuam
+especializadas e podem ser chamadas explicitamente quando desejado.
 
 ### `$docs-plan-ap`
 
@@ -187,6 +193,8 @@ O script `scripts/install_docs_skills.py`:
 
 - copia as skills de `skills/` para `~\.codex\skills`;
 - instala tambem `docs-init` em `~\.agents\skills`;
+- embute a fonte canonica `DOCS-Engenharia-de-Contexto/` dentro das copias
+  instaladas de `docs-init`, sem `.git`;
 - valida `SKILL.md` e `agents/openai.yaml` de cada skill;
 - cria backup das versoes anteriores em `~\.codex\skills-backups`;
 - desativa skills legadas `xml-docs-init-*` apos copiar e validar as novas.

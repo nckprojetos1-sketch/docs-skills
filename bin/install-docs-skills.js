@@ -151,8 +151,9 @@ function validateSkill(skillDir) {
     errors.push(`${name}: missing agents/openai.yaml`);
   } else {
     const yamlText = fs.readFileSync(openaiYaml, "utf8");
-    if (!yamlText.includes("allow_implicit_invocation: false")) {
-      errors.push(`${name}: explicit invocation policy missing`);
+    const expectedPolicy = name === "docs-init" ? "allow_implicit_invocation: true" : "allow_implicit_invocation: false";
+    if (!yamlText.includes(expectedPolicy)) {
+      errors.push(`${name}: expected policy missing: ${expectedPolicy}`);
     }
   }
 
@@ -184,6 +185,26 @@ function disableLegacy(codexSkills, disabledRoot) {
     moved.push(destination);
   }
   return moved;
+}
+
+function copyDocsSource(root, docsInitDestination) {
+  const source = path.join(root, "DOCS-Engenharia-de-Contexto");
+  if (!fs.existsSync(source) || !fs.statSync(source).isDirectory()) {
+    return null;
+  }
+
+  const destination = path.join(docsInitDestination, "assets", "DOCS-Engenharia-de-Contexto");
+  if (fs.existsSync(destination)) {
+    fs.rmSync(destination, { recursive: true, force: true });
+  }
+  fs.cpSync(source, destination, {
+    recursive: true,
+    filter: (sourcePath) => {
+      const basename = path.basename(sourcePath);
+      return basename !== ".git" && basename !== "__pycache__";
+    },
+  });
+  return destination;
 }
 
 function cleanDocsSkills(targetRoot, disabledRoot) {
@@ -238,11 +259,21 @@ function main() {
   for (const name of SKILLS) {
     const destination = path.join(args.codexSkills, name);
     installed[destination] = copyTree(path.join(sourceRoot, name), destination, path.join(backupRoot, ".codex"));
+    if (name === "docs-init") {
+      const copiedDocs = copyDocsSource(root, destination);
+      if (copiedDocs) {
+        installed[copiedDocs] = "copied-docs-source";
+      }
+    }
     codexInstalledDirs.push(destination);
   }
 
   const agentsDocsInit = path.join(args.agentsSkills, "docs-init");
   installed[agentsDocsInit] = copyTree(path.join(sourceRoot, "docs-init"), agentsDocsInit, path.join(backupRoot, ".agents"));
+  const copiedAgentsDocs = copyDocsSource(root, agentsDocsInit);
+  if (copiedAgentsDocs) {
+    installed[copiedAgentsDocs] = "copied-docs-source";
+  }
 
   const installedErrors = validateAll([...codexInstalledDirs, agentsDocsInit]);
   if (installedErrors.length > 0) {

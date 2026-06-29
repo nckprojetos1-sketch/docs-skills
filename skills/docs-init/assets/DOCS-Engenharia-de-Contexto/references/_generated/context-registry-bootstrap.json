@@ -1,0 +1,15 @@
+{
+  "generated_at_utc": null,
+  "purpose": "bootstrap placeholder created by docs-init",
+  "records": [],
+  "summary": {
+    "bucket_counts": {},
+    "display_type_counts": {},
+    "total_records": 0
+  },
+  "usage": [
+    "filter by topic or name",
+    "open best_entry_path",
+    "expand only when needed"
+  ]
+}
